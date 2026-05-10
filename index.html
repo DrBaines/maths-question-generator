@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maths Question Creator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Maths Question Creator</h1>
+    <p>Select skills, generate questions, then reveal answers when ready.</p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>1. Choose skills</h2>
+      <p>Select one or more skills. The generator will create a mixed set of eight questions.</p>
+
+      <div id="skills" class="skills-grid"></div>
+
+      <div class="controls">
+        <button id="generateBtn">Generate 8 Questions</button>
+        <button id="revealAllBtn" class="success">Reveal All Answers</button>
+        <button id="hideAllBtn" class="secondary">Hide All Answers</button>
+        <button id="printBtn" class="secondary">Print Questions</button>
+      </div>
+    </section>
+
+    <section id="questions" class="questions">
+      <div class="panel empty">Choose at least one skill, then click Generate 8 Questions.</div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
