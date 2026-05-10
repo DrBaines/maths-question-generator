@@ -29,12 +29,12 @@
 (function(){
   var groups = [
     {category:'Number and Place Value',skills:[
-      skill('count-1000','Count in multiples of 1000',function(){var s=rand(1,8)*1000;return qa('Continue the sequence: '+s+', '+(s+1000)+', '+(s+2000)+', ___',s+3000)}),
+      skill('count-multiples','Count up or down in 10s, 100s or 1000s',function(){var step=pick([10,100,1000]),direction=pick(['up','down']),start;if(direction==='down'){start=rand(1000+(step*4),9999);}else{start=rand(1000,9999-(step*4));}var second=direction==='up'?start+step:start-step,third=direction==='up'?start+(step*2):start-(step*2),answer=direction==='up'?start+(step*3):start-(step*3);return qa('Count '+direction+' in '+step+'s: '+start+', '+second+', '+third+', ___',answer)}),
       skill('digit-value','Value of a digit',function(){var n=rand(1000,9999),str=String(n),i=rand(0,3),v=Number(str.charAt(i))*Math.pow(10,3-i);return qa('What is the value of the digit '+str.charAt(i)+' in '+n+'?',v)}),
-      skill('order-numbers','Order numbers',function(){var nums=uniqueNumbers(4,1000,9999);return qa('Put these numbers in ascending order: '+nums.join(', '),nums.slice().sort(function(a,b){return a-b}).join(', '))}),
+      skill('order-numbers','Order numbers ascending or descending',function(){var nums=uniqueNumbers(4,1000,9999),direction=pick(['ascending','descending']),ordered=nums.slice().sort(function(a,b){return direction==='ascending'?a-b:b-a});return qa('Put these numbers in '+direction+' order: '+nums.join(', '),ordered.join(', '))}),
       skill('rounding','Round to 10, 100 or 1000',function(){var n=rand(1000,9999),nearest=pick([10,100,1000]);return qa('Round '+n+' to the nearest '+nearest+'.',Math.round(n/nearest)*nearest)}),
       skill('negative','Negative numbers',function(){var a=rand(-10,5),b=rand(2,8);return qa(a+' + '+b+' = ?',a+b)}),
-      skill('roman','Roman numerals to 100',function(){var n=rand(1,100);return qa('Write '+n+' in Roman numerals.',toRoman(n))})]},
+      skill('roman','Roman numerals to and from 100',function(){var n=rand(1,100),mode=pick(['toRoman','fromRoman']);if(mode==='toRoman'){return qa('Write '+n+' in Roman numerals.',toRoman(n));}var roman=toRoman(n);return qa('Write '+roman+' as a number.',n)})]},
     {category:'Addition and Subtraction',skills:[
       skill('add-4','Add 4-digit numbers',function(){var a=rand(1000,8999),b=rand(1000,8999);return qa(a+' + '+b+' = ?',a+b)}),
       skill('sub-4','Subtract 4-digit numbers',function(){var a=rand(3000,9999),b=rand(1000,a-1);return qa(a+' − '+b+' = ?',a-b)}),
