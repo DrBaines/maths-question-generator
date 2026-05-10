@@ -90,26 +90,57 @@ function metricConversions() {
 function renderSkills() {
   const container = document.getElementById("skills");
   const categories = [...new Set(skills.map(skill => skill.category))];
+
   container.innerHTML = categories.map(category => `
     <div class="category-group">
       <h3>${category}</h3>
       <div class="category-skills">
         ${skills.filter(skill => skill.category === category).map(skill => `
-          <label class="skill">
-            <input type="checkbox" value="${skill.id}" checked />
+          <button type="button" class="skill-toggle selected" data-skill-id="${skill.id}" aria-pressed="true">
+            <span class="tick" aria-hidden="true"></span>
             <span>
               <strong>${skill.name}</strong>
               <small>${skill.description}</small>
             </span>
-          </label>
+          </button>
         `).join("")}
       </div>
     </div>
   `).join("");
+
+  document.querySelectorAll(".skill-toggle").forEach(button => {
+    button.addEventListener("click", () => toggleSkillButton(button));
+  });
+
+  updateSelectedCount();
+}
+
+function toggleSkillButton(button) {
+  const isSelected = button.classList.toggle("selected");
+  button.setAttribute("aria-pressed", String(isSelected));
+  updateSelectedCount();
+}
+
+function updateSelectedCount() {
+  const existing = document.getElementById("selectedCount");
+  const selected = document.querySelectorAll(".skill-toggle.selected").length;
+  const total = skills.length;
+
+  if (existing) {
+    existing.textContent = `${selected} of ${total} skills selected`;
+    return;
+  }
+
+  const skillsContainer = document.getElementById("skills");
+  const count = document.createElement("div");
+  count.id = "selectedCount";
+  count.className = "selected-count";
+  count.textContent = `${selected} of ${total} skills selected`;
+  skillsContainer.before(count);
 }
 
 function selectedSkills() {
-  const selectedIds = [...document.querySelectorAll("#skills input:checked")].map(input => input.value);
+  const selectedIds = [...document.querySelectorAll(".skill-toggle.selected")].map(button => button.dataset.skillId);
   return skills.filter(skill => selectedIds.includes(skill.id));
 }
 
@@ -152,7 +183,39 @@ function toggleAnswer(index) { currentQuestions[index].visible = !currentQuestio
 function refreshQuestion(index) { currentQuestions[index] = createQuestion(index); renderQuestions(); }
 function showAllAnswers() { currentQuestions.forEach(item => item.visible = true); renderQuestions(); }
 function hideAllAnswers() { currentQuestions.forEach(item => item.visible = false); renderQuestions(); }
-function selectAllSkills() { document.querySelectorAll("#skills input").forEach(input => input.checked = true); }
-function deselectAllSkills() { document.querySelectorAll("#skills input").forEach(input => input.checked = false); }
+function selectAllSkills() {
+  document.querySelectorAll(".skill-toggle").forEach(button => {
+    button.classList.add("selected");
+    button.setAttribute("aria-pressed", "true");
+  });
+  updateSelectedCount();
+}
 
-renderSkills();
+function deselectAllSkills() {
+  document.querySelectorAll(".skill-toggle").forEach(button => {
+    button.classList.remove("selected");
+    button.setAttribute("aria-pressed", "false");
+  });
+  updateSelectedCount();
+}
+
+function bindButtons() {
+  const generateBtn = document.getElementById("generateBtn");
+  const revealAllBtn = document.getElementById("revealAllBtn");
+  const hideAllBtn = document.getElementById("hideAllBtn");
+  const printBtn = document.getElementById("printBtn");
+  const selectAllBtn = document.getElementById("selectAllBtn");
+  const deselectAllBtn = document.getElementById("deselectAllBtn");
+
+  if (generateBtn) generateBtn.addEventListener("click", generateSet);
+  if (revealAllBtn) revealAllBtn.addEventListener("click", showAllAnswers);
+  if (hideAllBtn) hideAllBtn.addEventListener("click", hideAllAnswers);
+  if (printBtn) printBtn.addEventListener("click", () => window.print());
+  if (selectAllBtn) selectAllBtn.addEventListener("click", selectAllSkills);
+  if (deselectAllBtn) deselectAllBtn.addEventListener("click", deselectAllSkills);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  renderSkills();
+  bindButtons();
+});
