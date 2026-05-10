@@ -232,3 +232,22 @@ button.success {
     display: none !important;
   }
 }
+
+.category-group {
+  grid-column: 1 / -1;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.category-group h3 {
+  margin: 0 0 12px;
+  color: var(--accent-dark);
+}
+
+.category-skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
