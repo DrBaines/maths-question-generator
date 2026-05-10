@@ -7,28 +7,33 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
+  <header class="hero">
     <h1>Maths Question Creator</h1>
     <p>Select skills, generate questions, then reveal answers when ready.</p>
   </header>
 
   <main>
-    <section class="panel">
-      <h2>1. Choose skills</h2>
-      <p>Click skills to toggle them on or off. Selected skills turn blue. The generator will create a mixed set of eight questions.</p>
-
-      <div class="controls small-controls">
-        <button id="selectAllBtn" class="secondary">Select All</button>
-        <button id="deselectAllBtn" class="secondary">Clear All</button>
+    <section class="panel chooser">
+      <div class="section-heading">
+        <div>
+          <h2>1. Choose skills</h2>
+          <p>Click a skill to toggle it on or off. Selected skills turn blue.</p>
+        </div>
+        <div id="selectedCount" class="selected-count">Loading skills…</div>
       </div>
 
-      <div id="skills" class="skills-grid"></div>
+      <div class="controls small-controls">
+        <button type="button" id="selectAllBtn" class="secondary">Select All</button>
+        <button type="button" id="clearAllBtn" class="secondary">Clear All</button>
+      </div>
 
-      <div class="controls">
-        <button id="generateBtn">Generate 8 Questions</button>
-        <button id="revealAllBtn" class="success">Reveal All Answers</button>
-        <button id="hideAllBtn" class="secondary">Hide All Answers</button>
-        <button id="printBtn" class="secondary">Print Questions</button>
+      <div id="skills" class="skills-wrapper"></div>
+
+      <div class="controls main-controls">
+        <button type="button" id="generateBtn">Generate 8 Questions</button>
+        <button type="button" id="revealAllBtn" class="success">Reveal All Answers</button>
+        <button type="button" id="hideAllBtn" class="secondary">Hide All Answers</button>
+        <button type="button" id="printBtn" class="secondary">Print Questions</button>
       </div>
     </section>
 
@@ -37,6 +42,6 @@
     </section>
   </main>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
